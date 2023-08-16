@@ -38,4 +38,4 @@ target/maven-archiver
 target/generated-sources
 target/surefire-reports
 target/generated-test-sources
-target/api-service.jar.original
+target/services-builder.jar.original
