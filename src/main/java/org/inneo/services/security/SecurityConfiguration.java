@@ -44,6 +44,12 @@ public class SecurityConfiguration {
 	        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
 	    http.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 	    
+	    http.headers()
+        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
+	    .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy","script-src 'self'"))
+        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "x-requested-with"))
+        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE"));
+	    
 	    return http.build();
 	}
 	
