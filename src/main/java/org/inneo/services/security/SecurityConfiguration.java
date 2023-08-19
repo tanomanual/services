@@ -33,7 +33,14 @@ public class SecurityConfiguration {
 	private final LogoutHandler logoutHandler;
 	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {		
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {	
+		 http.headers()
+	        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
+		    .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy","script-src 'self'"))
+	        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "x-requested-with"))
+	        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE"));
+		 
+		 
 	    http.csrf().disable()
 	        .authorizeHttpRequests().requestMatchers(openUrl()).permitAll()
 	        .anyRequest().authenticated()	       
@@ -42,13 +49,12 @@ public class SecurityConfiguration {
 	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
 	        .logout().logoutUrl("/auth/logout").addLogoutHandler(logoutHandler)
 	        .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
-	    http.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
 	    
-	    http.headers()
-        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
-	    .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy","script-src 'self'"))
-        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "x-requested-with"))
-        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE"));
+	    
+	    http.exceptionHandling()
+	    	.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
+	    
+	   
 	    
 	    return http.build();
 	}

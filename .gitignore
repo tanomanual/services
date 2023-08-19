@@ -40,3 +40,4 @@ target/generated-sources
 target/surefire-reports
 target/generated-test-sources
 target/services-builder.jar.original
+/target/

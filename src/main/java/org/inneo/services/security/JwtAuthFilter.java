@@ -1,7 +1,5 @@
 package org.inneo.services.security;
 
-import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.util.Map;
 import java.util.HashMap;
 import java.io.IOException;
@@ -10,15 +8,15 @@ import jakarta.servlet.FilterChain;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
 import jakarta.servlet.ServletException;
-
-import org.inneo.services.repository.TokenRep;
 import org.springframework.http.MediaType;
+import org.inneo.services.repository.TokenRep;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Component;
 import jakarta.servlet.http.HttpServletResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -59,15 +57,24 @@ public class JwtAuthFilter extends OncePerRequestFilter{
     				authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));				 
     				SecurityContextHolder.getContext().setAuthentication(authToken);				 
     			}
-    		}	 
+    			else {	
+    	    		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+    	    		Map<String, String> unauthorized = new HashMap<>();
+    	    		unauthorized.put("mensagem", "Token expirado / renovado.");
+    	    		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+    	    		new ObjectMapper().writeValue(response.getOutputStream(), unauthorized);
+    	    		}
+    		}
 		 	filterChain.doFilter(request, response);
 		 	
-    	}catch (Exception e) {	    		  
+    	}catch (Exception e) {
     		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     		Map<String, String> unauthorized = new HashMap<>();
-    		unauthorized.put("unauthorized", "Token invalido ou expirado!");
+    		unauthorized.put("mensagem", "Token inválido.");
+    		unauthorized.put("response", e.getMessage());
     		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     		new ObjectMapper().writeValue(response.getOutputStream(), unauthorized);    		
-    	}		 	
-	}		
+    	}
+    	
+	}	
 }
