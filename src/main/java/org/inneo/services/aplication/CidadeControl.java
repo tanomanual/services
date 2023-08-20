@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "localhost:8080")
 @RequestMapping("/api/v1/cidades")
 @Tag(name = "Cidades", description = "API´s Cidades brasileiras.")
 public class CidadeControl {

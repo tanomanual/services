@@ -35,15 +35,17 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {	
 		 http.headers()
-	        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin", "*"))
+		 	.addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Origin","*"))
 		    .addHeaderWriter(new StaticHeadersWriter("X-Content-Security-Policy","script-src 'self'"))
 	        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers", "x-requested-with"))
-	        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE"));
+		    .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Headers","Origin, Content-Type, X-Auth-Token"))
+	        .addHeaderWriter(new StaticHeadersWriter("Access-Control-Allow-Methods","GET, POST, PATCH, PUT, DELETE, OPTIONS"));
+		 
 		 
 		 
 	    http.csrf().disable()
 	        .authorizeHttpRequests().requestMatchers(openUrl()).permitAll()
-	        .anyRequest().authenticated()	       
+	        .anyRequest().authenticated().and().cors()
 	        .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 	        .and().authenticationProvider(authenticationProvider)
 	        .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
