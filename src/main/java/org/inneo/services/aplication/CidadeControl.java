@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import io.netty.handler.codec.http.HttpResponse;
 import io.swagger.v3.oas.annotations.Operation;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Pageable;
 import org.inneo.services.domain.cidades.Cidade;
@@ -17,6 +19,7 @@ import org.inneo.services.servicos.CidadeService;
 import org.springframework.data.web.PageableDefault;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -80,5 +83,17 @@ public class CidadeControl {
 	@GetMapping
 	public ResponseEntity<Page<Cidade>> getPages(@PageableDefault(page = 0, size = 10, sort = "cidade", direction = Sort.Direction.ASC) Pageable pageable){
 		return ResponseEntity.ok(cidadeService.getPages(pageable));
+	}
+	
+	@Operation(summary = "Deletar uma cidade pelo código", method = "DELETE")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Cidade deletada com sucesso!" ),
+			@ApiResponse(responseCode = "400", description = "Servidor retornou uma resposta inesperada." ),
+			@ApiResponse(responseCode = "401", description = "Você não possui autorização!" )
+	})
+	@DeleteMapping("/codigo={codigo}")
+	public ResponseEntity<?> delete(@PathVariable(name="codigo") Long codigo){
+		cidadeService.delete(codigo);
+		return ResponseEntity.ok("Deletado com sucesso");		
 	}
 }

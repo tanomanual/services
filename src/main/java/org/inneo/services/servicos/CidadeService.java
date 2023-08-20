@@ -40,6 +40,10 @@ public class CidadeService {
 		return cidades;
 	}
 	
+	public void delete(Long codigo) {
+		cidadeRep.deleteById(codigo);
+	}
+	
 	private Sort orderByCodigo() {
 	    return Sort.by(Sort.Direction.ASC, "codigo");
 	}
