@@ -7,13 +7,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.netty.handler.codec.http.HttpResponse;
 import io.swagger.v3.oas.annotations.Operation;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Pageable;
 import org.inneo.services.domain.cidades.Cidade;
+import org.inneo.services.domain.dtos.CidadeFilter;
 import org.inneo.services.domain.dtos.CidadeResponse;
 import org.inneo.services.servicos.CidadeService;
 import org.springframework.data.web.PageableDefault;
@@ -50,6 +49,18 @@ public class CidadeControl {
 		return ResponseEntity.ok(cidadeService.create(cidade));
 	}
 	
+	@Operation(summary = "Cadastrar uma cidade", method = "POST")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Cadastro realizado com sucesso!" ),
+			@ApiResponse(responseCode = "400", description = "Servidor retornou uma resposta inesperada." ),
+			@ApiResponse(responseCode = "401", description = "Você não possui autorização para cadastros!" )
+	})
+	@PostMapping("/integration")
+	public ResponseEntity<?> integration(@RequestBody @Valid List<Cidade> cidades){	
+		cidadeService.integration(cidades);
+		return ResponseEntity.ok("Integrado com sucesso");
+	}
+	
 	
 	@Operation(summary = "Buscar uma cidade pelo código", method = "GET")
 	@ApiResponses(value = {
@@ -81,8 +92,9 @@ public class CidadeControl {
 			@ApiResponse(responseCode = "401", description = "Você não possui autorização para visualizar!" )
 	})
 	@GetMapping
-	public ResponseEntity<Page<Cidade>> getPages(@PageableDefault(page = 0, size = 10, sort = "cidade", direction = Sort.Direction.ASC) Pageable pageable){
-		return ResponseEntity.ok(cidadeService.getPages(pageable));
+	public ResponseEntity<Page<Cidade>> getPages(
+			@PageableDefault(page = 0, size = 6, sort = "cidade", direction = Sort.Direction.ASC) Pageable pageable, CidadeFilter filter){	
+		return ResponseEntity.ok(cidadeService.getPages(filter, pageable));
 	}
 	
 	@Operation(summary = "Deletar uma cidade pelo código", method = "DELETE")

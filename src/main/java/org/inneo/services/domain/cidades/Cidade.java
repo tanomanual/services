@@ -1,9 +1,6 @@
 package org.inneo.services.domain.cidades;
 
 import org.inneo.services.domain.GenericEntity;
-
-import org.inneo.services.domain.GenericEntity;
-
 import io.micrometer.common.lang.NonNull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

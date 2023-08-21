@@ -9,7 +9,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.inneo.services.domain.cidades.Cidade;
+import org.inneo.services.domain.dtos.CidadeFilter;
 import org.inneo.services.domain.dtos.CidadeResponse;
+import org.inneo.services.domain.specs.CidadeSpec;
 import org.inneo.services.repository.CidadeRep;
 
 @Service
@@ -26,6 +28,17 @@ public class CidadeService {
 		return cidadeRep.save(cidade);
 	}
 	
+	public void integration(List<Cidade> cidades) {	
+		for(Cidade cidade: cidades) {
+			if(cidade.getCodigo() != null && cidadeRep.findByCodigo(cidade.getCodigo()) != null) {
+				Cidade create = cidadeRep.findByCodigo(cidade.getCodigo());
+				BeanUtils.copyProperties(cidade, create);
+				cidadeRep.save(create);
+			}		
+			cidadeRep.save(cidade);
+		}
+	}
+	
 	public Cidade getCod(Long codigo) {
 		return cidadeRep.findByCodigo(codigo);			
 	}
@@ -35,8 +48,8 @@ public class CidadeService {
 		return cidades;
 	}
 	
-	public Page<Cidade> getPages(Pageable pageable) {
-		Page<Cidade> cidades = cidadeRep.findAll(pageable);
+	public Page<Cidade> getPages(CidadeFilter filter, Pageable pageable ) {
+		Page<Cidade> cidades = cidadeRep.findAll(CidadeSpec.doFiltro(filter.getFilter()), pageable);
 		return cidades;
 	}
 	

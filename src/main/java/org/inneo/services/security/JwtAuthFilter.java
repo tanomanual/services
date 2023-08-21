@@ -60,7 +60,7 @@ public class JwtAuthFilter extends OncePerRequestFilter{
     			else {	
     	    		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     	    		Map<String, String> unauthorized = new HashMap<>();
-    	    		unauthorized.put("mensagem", "Token expirado / renovado.");
+    	    		unauthorized.put("mensagem", "Token expirado / renovado, realize um novo login para continuar.");
     	    		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     	    		new ObjectMapper().writeValue(response.getOutputStream(), unauthorized);
     	    		}
@@ -70,7 +70,7 @@ public class JwtAuthFilter extends OncePerRequestFilter{
     	}catch (Exception e) {
     		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     		Map<String, String> unauthorized = new HashMap<>();
-    		unauthorized.put("mensagem", "Token inválido.");
+    		unauthorized.put("mensagem", "Permição inválida ou expirada, realize um novo login para continuar.");
     		unauthorized.put("response", e.getMessage());
     		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
     		new ObjectMapper().writeValue(response.getOutputStream(), unauthorized);    		
