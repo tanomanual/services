@@ -75,7 +75,7 @@ public class SecurityConfiguration {
 				"/",
 				"/auth/login",
 				"/auth/register",
-				"/favicon.ico",  
+				"/api/v1/previsao/**",
 				"/v3/api-docs/**",
 	            "/swagger-ui/**",
 	            "/v2/api-docs/**",

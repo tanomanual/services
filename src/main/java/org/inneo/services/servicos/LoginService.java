@@ -7,11 +7,11 @@ import org.inneo.services.domain.enums.Role;
 import org.inneo.services.domain.token.Token;
 import org.inneo.services.repository.LoginRep;
 import org.inneo.services.repository.TokenRep;
-
+import org.inneo.services.repository.UsuarioRep;
 import org.inneo.services.security.JwtService;
 import org.springframework.stereotype.Service;
 import org.inneo.services.domain.usuario.Login;
-
+import org.inneo.services.domain.usuario.Usuario;
 import org.inneo.services.domain.enums.TokenType;
 import org.inneo.services.domain.dtos.LoginResquest;
 import org.inneo.services.domain.dtos.TokenResponse;
@@ -20,14 +20,16 @@ import org.inneo.services.config.exceptions.ObjectDefaultException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 @RequiredArgsConstructor
 public class LoginService {
 	private final LoginRep loginRep;
 	private final TokenRep tokenRep;
-	private final PasswordEncoder passwordEncoder;
+	private final UsuarioRep usuarioRep;
 	private final JwtService jwtService;
+	private final PasswordEncoder passwordEncoder;
 	private final AuthenticationManager authentication;
 	
 	public TokenResponse register(LoginResquest request) {		
@@ -35,18 +37,29 @@ public class LoginService {
 		throw new ObjectDefaultException("Login indisponível.");
 	}
 		
-	var usuario = Login.builder()
+	var login = Login.builder()
 	   .username(request.username())
 	   .password(passwordEncoder.encode(request.password()))
 	   .role(Role.ROLE_USER)
-	   .build();
-	var savedUser = loginRep.save(usuario); 
-	var jwtToken = jwtService.generateToken(usuario);
+	   .build();	
+	
+	var savedUser = loginRep.save(login);	
+	
+	var usuario = Usuario.builder()
+			.nome(request.nome())
+			.sobrenome(request.sobrenome())
+			.email(request.email())
+			.loginId(savedUser.getUuid())
+			.build(); 
+	
+	usuarioRep.save(usuario);	
+	var jwtToken = jwtService.generateToken(login);
 	registrarToken(savedUser, jwtToken);
-	    
+	
 	return TokenResponse.builder()
-	    .token(jwtToken)
+	    .token(jwtToken)  
 	    .build();
+	
 	}
 	
 	public TokenResponse authenticate(LoginResquest request) {
@@ -60,7 +73,8 @@ public class LoginService {
 	    var login = loginRep.findByUsername(request.username()).orElseThrow();
 	    var jwtToken = jwtService.generateToken(login);
 	    closeTokens(login);
-	    registrarToken(login, jwtToken);	    
+	    registrarToken(login, jwtToken);	
+	    
 	    return TokenResponse.builder()
 	        .token(jwtToken)
 	        .build();
@@ -79,7 +93,7 @@ public class LoginService {
 	}
 	
 	private void closeTokens(Login login) {
-	    var validUserTokens = tokenRep.findAllValidTokenByUsuario(login.getId());
+	    var validUserTokens = tokenRep.findAllValidTokenByUsuario(login.getUuid());
 	    if (validUserTokens.isEmpty()) return;
 	    
 	    validUserTokens.forEach(token -> {
@@ -89,4 +103,10 @@ public class LoginService {
 	    });
 	    tokenRep.saveAll(validUserTokens);
 	  }
+	
+	public Login getLogado() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Login login = loginRep.findByUsername(username).get();
+        return login;
+    }
 }

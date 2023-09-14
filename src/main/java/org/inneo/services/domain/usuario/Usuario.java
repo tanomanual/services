@@ -7,6 +7,9 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+
+import java.util.UUID;
+
 import org.inneo.services.domain.GenericEntity;
 
 @Entity
@@ -26,9 +29,10 @@ public class Usuario extends GenericEntity{
 	@Column(nullable = false)
 	private String email;
 	
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String mobile;
 
-	@Column(name = "login_id")
-	public Long login;
+	@Column(name = "login_id", 
+			nullable = false)
+	public UUID loginId;
 }

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.List;
-import java.util.ArrayList;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
@@ -16,7 +15,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ObjectFieldErrorsException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
-	private List<FieldErrorItem> fieldErrors = new ArrayList<>();
+	private List<FieldErrorItem> fieldErrors;
 
     public ObjectFieldErrorsException(String msg, List<FieldErrorItem> fieldErrors) {
         super( msg );

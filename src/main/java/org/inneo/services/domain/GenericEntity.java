@@ -2,7 +2,7 @@ package org.inneo.services.domain;
 
 import lombok.Data;
 import java.util.Date;
-
+import java.util.UUID;
 import java.io.Serializable;
 import jakarta.persistence.Id;
 import lombok.NoArgsConstructor;
@@ -23,11 +23,15 @@ public abstract class GenericEntity implements Serializable{
 	
 	@Id
 	@GeneratedValue
-	private Long id;
+	private UUID uuid;
 	
 	@CreationTimestamp
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm")
 	private Date published;
+	
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm")
+	private Date dataInativacao;
 
 }
