@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @Tag(name = "Post")
-@RequestMapping("/v1/post")
+@RequestMapping("/v1/feed")
 public class PostController {
 	private final PostService postService;
 	

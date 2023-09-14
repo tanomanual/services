@@ -25,7 +25,7 @@ public class PostService {
 	
 	public Post publicar(Post request) {
 		Post post = request.getUuid() != null ? postRep.findById(request.getUuid()).get() : new Post();		
-		logger.error("Postagem cadastrada ou atualizada com sucesso.");
+		logger.info("Postagem cadastrada ou atualizada com sucesso.");
 		request.setPublished(post.getPublished());		
 		Login login = loginServer.getLogado();
 		
@@ -35,7 +35,7 @@ public class PostService {
 	}
 	
 	public void delete(UUID uuid) {	
-		logger.error("Postagem deletada com sucesso.");
+		logger.info("Postagem deletada com sucesso.");
 		Post post = postRep.findById(uuid).get();
 		post.setDataInativacao(new Date());
 		postRep.save(post);
