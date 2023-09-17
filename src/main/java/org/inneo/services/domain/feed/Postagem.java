@@ -1,7 +1,12 @@
 package org.inneo.services.domain.feed;
 
 
+import java.util.UUID;
+
 import org.inneo.services.domain.GenericEntity;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -21,14 +26,15 @@ import lombok.Getter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "_post")
-public class Post extends GenericEntity{
+public class Postagem extends GenericEntity{
 	private static final long serialVersionUID = 1L;
 	
 	@Lob
 	@NotBlank
 	private String texto;
 
-	@Column(name = "username")
-	private String username;
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+	@Column(name = "login_id", nullable = false)
+	public UUID loginId;
 
 }

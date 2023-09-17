@@ -1,50 +1,50 @@
 package org.inneo.services.servicos;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
-
 import org.slf4j.Logger;
+
 import org.slf4j.LoggerFactory;
 import lombok.RequiredArgsConstructor;
-
-import org.inneo.services.domain.enums.Situacao;
-import org.inneo.services.domain.feed.Post;
-import org.inneo.services.domain.specs.PostSpec;
-import org.inneo.services.repository.PostRep;
 import org.springframework.beans.BeanUtils;
+
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.inneo.services.domain.usuario.Login;
+import org.inneo.services.domain.feed.Postagem;
+
+import org.inneo.services.domain.enums.Situacao;
+import org.springframework.data.domain.Pageable;
+import org.inneo.services.repository.PostagemRep;
+import org.inneo.services.domain.specs.PostagenSpec;
 
 @Service
 @RequiredArgsConstructor
-public class PostService {
-	private static final Logger logger = LoggerFactory.getLogger(PostService.class);
-	private final PostRep  postRep;
+public class PostagemService {
+	private static final Logger logger = LoggerFactory.getLogger(PostagemService.class);
+	private final PostagemRep  postagemRep;
 	private final LoginService loginServer;
 	
-	public Post publicar(Post request) {
-		Post post = request.getUuid() != null ? postRep.findById(request.getUuid()).get() : new Post();		
+	public Postagem publicar(Postagem request) {
+		Postagem postagem = request.getUuid() != null ? postagemRep.findById(request.getUuid()).get() : new Postagem();		
 		logger.info("Postagem cadastrada ou atualizada com sucesso.");
-		request.setPublished(post.getPublished());		
+		request.setPublished(postagem.getPublished());		
 		Login login = loginServer.getLogado();
 		
-		BeanUtils.copyProperties(request, post);		
-		post.setUsername(login.getUsername());
-		return postRep.save(post);
+		BeanUtils.copyProperties(request, postagem);		
+		postagem.setLoginId(login.getUuid());
+		return postagemRep.save(postagem);
 	}
 	
 	public void delete(UUID uuid) {	
 		logger.info("Postagem deletada com sucesso.");
-		Post post = postRep.findById(uuid).get();
-		post.setDataInativacao(new Date());
-		postRep.save(post);
+		Postagem postagem = postagemRep.findById(uuid).get();
+		postagem.setDataInativacao(new Date());
+		postagemRep.save(postagem);
 	}
 	
-	public List<Post> feeds() {
-		return postRep.findAll(
-				PostSpec.doSituacao(Situacao.ATIVO)
-		);
+	public Page<Postagem> postagens(Pageable pageable) {
+		return postagemRep.findAll(PostagenSpec.doSituacao(Situacao.ATIVO), pageable);
 	}
 	
 	

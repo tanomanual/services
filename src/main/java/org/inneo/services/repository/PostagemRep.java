@@ -2,10 +2,10 @@ package org.inneo.services.repository;
 
 import java.util.UUID;
 
-import org.inneo.services.domain.feed.Post;
+import org.inneo.services.domain.feed.Postagem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
-public interface PostRep extends JpaRepository<Post, UUID> , JpaSpecificationExecutor<Post>{
-	Post findByUuid(UUID uuid);
+public interface PostagemRep extends JpaRepository<Postagem, UUID> , JpaSpecificationExecutor<Postagem>{
+	Postagem findByUuid(UUID uuid);
 }

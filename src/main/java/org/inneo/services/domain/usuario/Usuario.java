@@ -1,5 +1,7 @@
 package org.inneo.services.domain.usuario;
 
+import lombok.Getter;
+import java.util.UUID;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Table;
@@ -7,11 +9,11 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-
-import java.util.UUID;
-
 import org.inneo.services.domain.GenericEntity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@Getter
 @Entity
 @Builder
 @NoArgsConstructor
@@ -24,14 +26,9 @@ public class Usuario extends GenericEntity{
 	private String nome;
 	
 	@Column(nullable = false)
-	private String sobrenome;
-	
-	@Column(nullable = false)
-	private String email;
-	
-	@Column(nullable = true)
-	private String mobile;
+	private String sobrenome;	
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@Column(name = "login_id", 
 			nullable = false)
 	public UUID loginId;

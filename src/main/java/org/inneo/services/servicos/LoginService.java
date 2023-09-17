@@ -48,7 +48,6 @@ public class LoginService {
 	var usuario = Usuario.builder()
 			.nome(request.nome())
 			.sobrenome(request.sobrenome())
-			.email(request.email())
 			.loginId(savedUser.getUuid())
 			.build(); 
 	
