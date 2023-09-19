@@ -11,12 +11,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Transient;
-
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 
 import org.inneo.services.domain.GenericEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Getter
 @Entity
@@ -47,8 +46,9 @@ public class Usuario extends GenericEntity{
 	@Column(name = "mobile")
 	private String mobile;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne
     @JoinColumn(name="id_login")
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Login login;		
 
 	public String getNomeCompleto() {
