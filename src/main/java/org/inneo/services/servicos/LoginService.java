@@ -46,9 +46,10 @@ public class LoginService {
 	
 	var usuario = Usuario.builder()
 			.nome(request.nome())
-			.email(request.email())
 			.sobrenome(request.sobrenome())
 			.nascimento(request.nascimento())
+			.email(request.email())
+			.mobile(request.mobile())
 			.login(created)
 			.build(); 
 	
