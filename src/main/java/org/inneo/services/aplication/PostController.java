@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+
+import org.inneo.services.domain.dtos.PostagemResponse;
 import org.inneo.services.domain.feed.Postagem;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
@@ -68,7 +70,7 @@ public class PostController {
 			@ApiResponse(responseCode = "401", description = "Permissão negada!" )
 	})
 	@GetMapping
-	public ResponseEntity<Page<Postagem>> postagens(@PageableDefault(page = 0, size = 18, sort = "published", direction = Sort.Direction.ASC) Pageable pageable) {
+	public ResponseEntity<Page<PostagemResponse>> postagens(@PageableDefault(page = 0, size = 18, sort = "published", direction = Sort.Direction.ASC) Pageable pageable) {
 	   return ResponseEntity.ok(postagemService.postagens(pageable));
 	}
 	

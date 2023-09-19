@@ -1,16 +1,14 @@
 package org.inneo.services.domain.feed;
 
 
-import java.util.UUID;
-
-import org.inneo.services.domain.GenericEntity;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.inneo.services.domain.usuario.Usuario;
+import org.inneo.services.domain.GenericEntity;
+import jakarta.validation.constraints.NotBlank;
 
-import jakarta.persistence.Column;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 
 import lombok.NoArgsConstructor;
@@ -32,9 +30,8 @@ public class Postagem extends GenericEntity{
 	@Lob
 	@NotBlank
 	private String texto;
-
+	
+	@ManyToOne
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@Column(name = "login_id", nullable = false)
-	public UUID loginId;
-
+	private Usuario usuario;
 }

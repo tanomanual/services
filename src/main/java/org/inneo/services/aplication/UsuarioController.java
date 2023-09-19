@@ -32,6 +32,6 @@ public class UsuarioController {
 	})
 	@GetMapping
 	public ResponseEntity<Usuario> getUsuario() {
-	   return ResponseEntity.ok(usuarioService.getUsuario());
+	   return ResponseEntity.ok(usuarioService.getLogado());
 	}
 }

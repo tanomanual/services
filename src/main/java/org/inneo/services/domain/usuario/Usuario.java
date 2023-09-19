@@ -1,17 +1,22 @@
 package org.inneo.services.domain.usuario;
 
 import lombok.Getter;
-import java.util.UUID;
 import lombok.Builder;
+
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Table;
-
 import lombok.AllArgsConstructor;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import org.inneo.services.domain.GenericEntity;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+
+import org.inneo.services.domain.GenericEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Getter
 @Entity
@@ -28,8 +33,25 @@ public class Usuario extends GenericEntity{
 	@Column(nullable = false)
 	private String sobrenome;	
 
-	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-	@Column(name = "login_id", 
-			nullable = false)
-	public UUID loginId;
+	@Transient
+	@Column(name = "nome_completo")
+	private String nomeCompleto; 	
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+	@Column(name = "nascimento")
+	private String nascimento;
+	
+	@Column(name = "email")
+	private String email;
+	
+	@Column(name = "mobile")
+	private String mobile;
+	
+	@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_login")
+	private Login login;		
+
+	public String getNomeCompleto() {
+        return nome + " " + sobrenome;
+    }
 }

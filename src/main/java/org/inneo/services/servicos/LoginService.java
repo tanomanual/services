@@ -20,7 +20,6 @@ import org.inneo.services.config.exceptions.ObjectDefaultException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 @RequiredArgsConstructor
@@ -38,22 +37,24 @@ public class LoginService {
 	}
 		
 	var login = Login.builder()
-	   .username(request.username())
+	   .username(request.email().substring(0, request.email().indexOf("@")))
 	   .password(passwordEncoder.encode(request.password()))
 	   .role(Role.ROLE_USER)
 	   .build();	
 	
-	var savedUser = loginRep.save(login);	
+	var created = loginRep.save(login);	
 	
 	var usuario = Usuario.builder()
 			.nome(request.nome())
+			.email(request.email())
 			.sobrenome(request.sobrenome())
-			.loginId(savedUser.getUuid())
+			.nascimento(request.nascimento())
+			.login(created)
 			.build(); 
 	
 	usuarioRep.save(usuario);	
 	var jwtToken = jwtService.generateToken(login);
-	registrarToken(savedUser, jwtToken);
+	registrarToken(created, jwtToken);
 	
 	return TokenResponse.builder()
 	    .token(jwtToken)  
@@ -102,10 +103,4 @@ public class LoginService {
 	    });
 	    tokenRep.saveAll(validUserTokens);
 	  }
-	
-	public Login getLogado() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Login login = loginRep.findByUsername(username).get();
-        return login;
-    }
 }

@@ -9,5 +9,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface LoginRep extends JpaRepository<Login, UUID> {
 	Optional<Login> findByUsername(String username);
-	Login findByUuid(UUID uuid);
 }
