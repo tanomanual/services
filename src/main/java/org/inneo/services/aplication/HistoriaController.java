@@ -71,7 +71,7 @@ public class HistoriaController {
 			@ApiResponse(responseCode = "401", description = "Permissão negada!" )
 	})
 	@GetMapping
-	public ResponseEntity<Page<HistoriaResponse>> postagens(@PageableDefault(page = 0, size = 18, sort = "published", direction = Sort.Direction.ASC) Pageable pageable) {
+	public ResponseEntity<Page<HistoriaResponse>> postagens(@PageableDefault(page = 0, size = 18, sort = "published", direction = Sort.Direction.DESC) Pageable pageable) {
 	   return ResponseEntity.ok(historiaService.postagens(pageable));
 	}
 	
