@@ -75,6 +75,22 @@ public class HistoriaController {
 	   return ResponseEntity.ok(historiaService.postagens(pageable));
 	}
 	
+	@Operation(summary = "Curtir historia", method = "POST")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Historias publicada com sucesso!" ),
+			@ApiResponse(responseCode = "400", description = "Requisição falhou." ),
+			@ApiResponse(responseCode = "401", description = "Permissão negada!" )
+	})
+	@PostMapping("/curtir")
+	public ResponseEntity<?> curtir(@RequestParam(name = "uuid", defaultValue = "") UUID uuid) {
+		try {
+			historiaService.curtir(uuid);
+			return new ResponseEntity<>("Historias curtida com sucesso.", HttpStatus.CREATED);
+		}catch (Exception e) {
+			return new ResponseEntity<>("Não foi possivel curtir a historia."+uuid, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
 	
 
 }

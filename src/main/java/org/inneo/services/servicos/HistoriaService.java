@@ -45,8 +45,14 @@ public class HistoriaService {
 	public Page<HistoriaResponse> postagens(Pageable pageable) {
 		logger.info("Historias encontareadas.");
 		Page<Historia> postagens = historiaRep.findAll(PostagenSpec.doSituacao(Situacao.ATIVO), pageable);
-		List<HistoriaResponse> postagem = postagens.stream().map(HistoriaResponse::new).toList();		 
-		return new PageImpl<HistoriaResponse>(postagem, pageable, postagens.getTotalElements());
+		List<HistoriaResponse> postagem = postagens.stream().map(HistoriaResponse::new).toList();
+		return new PageImpl<HistoriaResponse>(postagem, pageable, postagens.getTotalElements());	
+	}
 	
+	public void curtir(UUID uuid) {
+		Historia historia = historiaRep.findById(uuid).get();		
+		historia.getCurtidas().add(usuarioService.getLogado());
+		logger.info("Historia curtida com sucesso.");	
+		historiaRep.save(historia);
 	}
 }
