@@ -1,13 +1,13 @@
 package org.inneo.services.domain.specs;
 
 import org.inneo.services.domain.enums.Situacao;
-import org.inneo.services.domain.feed.Postagem;
+import org.inneo.services.domain.historia.Historia;
 import org.springframework.data.jpa.domain.Specification;
 
 import jakarta.persistence.criteria.Predicate;
 
 public class PostagenSpec {
-	public static Specification<Postagem> doSituacao(Situacao situacao){
+	public static Specification<Historia> doSituacao(Situacao situacao){
         return (root, query, builder) -> {
             if(situacao != null) {
                 if(situacao.equals(Situacao.ATIVO)) {

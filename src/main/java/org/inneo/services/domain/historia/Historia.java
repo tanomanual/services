@@ -1,4 +1,4 @@
-package org.inneo.services.domain.feed;
+package org.inneo.services.domain.historia;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -23,13 +23,13 @@ import lombok.Getter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "_post")
-public class Postagem extends GenericEntity{
+@Table(name = "_historia")
+public class Historia extends GenericEntity{
 	private static final long serialVersionUID = 1L;
 	
 	@Lob
 	@NotBlank
-	private String texto;
+	private String conteudo;
 	
 	@ManyToOne
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
