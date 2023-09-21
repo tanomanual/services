@@ -1,5 +1,6 @@
 package org.inneo.services.aplication;
 
+
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,31 +9,31 @@ import org.springframework.data.domain.Sort;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-import org.inneo.services.domain.dtos.HistoriaResponse;
-import org.inneo.services.domain.historia.Historia;
-
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Pageable;
 
+import org.inneo.services.domain.historia.Historia;
 import org.inneo.services.servicos.HistoriaService;
 import org.springframework.data.web.PageableDefault;
+import org.inneo.services.domain.dtos.HistoriaResponse;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.RequestParam;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
-@Tag(name = "Post")
+@Tag(name = "Historias")
 @RequestMapping("/v1/historias")
 public class HistoriaController {
 	private final HistoriaService historiaService;
@@ -81,16 +82,15 @@ public class HistoriaController {
 			@ApiResponse(responseCode = "400", description = "Requisição falhou." ),
 			@ApiResponse(responseCode = "401", description = "Permissão negada!" )
 	})
+	
+	
 	@PostMapping("/curtir")
 	public ResponseEntity<?> curtir(@RequestParam(name = "uuid", defaultValue = "") UUID uuid) {
 		try {
 			historiaService.curtir(uuid);
 			return new ResponseEntity<>("Historias curtida com sucesso.", HttpStatus.CREATED);
 		}catch (Exception e) {
-			return new ResponseEntity<>("Não foi possivel curtir a historia."+uuid, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Não foi possivel curtir a historia.", HttpStatus.BAD_REQUEST);
 		}
 	}
-	
-	
-
 }

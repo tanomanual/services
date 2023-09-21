@@ -2,21 +2,23 @@ package org.inneo.services.domain.historia;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.inneo.services.domain.usuario.Usuario;
 import org.inneo.services.domain.GenericEntity;
+import org.inneo.services.domain.comentario.Comentario;
+
 import jakarta.validation.constraints.NotBlank;
 
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinTable;
+
+import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Lob;
+
 import java.util.Collection;
 import lombok.Builder;
 import lombok.Setter;
@@ -41,6 +43,11 @@ public class Historia extends GenericEntity{
 	private Usuario usuario;
 	
 	@JoinTable(name = "_curtidas")
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Usuario> curtidas;
+	
+	@JoinTable(name = "_comentarios_historia")
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Collection<Comentario> comentarios;
+	
 }
