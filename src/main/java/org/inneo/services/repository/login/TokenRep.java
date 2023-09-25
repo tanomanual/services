@@ -1,4 +1,4 @@
-package org.inneo.services.repository;
+package org.inneo.services.repository.login;
 
 import java.util.List;
 import java.util.Optional;

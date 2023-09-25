@@ -1,4 +1,4 @@
-package org.inneo.services.aplication;
+package org.inneo.services.aplication.security;
 
 import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -6,8 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 
 import org.springframework.http.ResponseEntity;
 import org.inneo.services.domain.usuario.Usuario;
-import org.inneo.services.servicos.UsuarioService;
-
+import org.inneo.services.servicos.security.UsuarioService;
 import org.springframework.web.bind.annotation.GetMapping;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @Tag(name = "Usuario")
 @RequestMapping("/v1/usuario")
-public class UsuarioController {
+public class UsuarioResources {
 	private final UsuarioService usuarioService;
 
 	@Operation(summary = "Usuário", method = "GET")

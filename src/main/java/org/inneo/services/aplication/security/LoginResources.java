@@ -1,4 +1,4 @@
-package org.inneo.services.aplication;
+package org.inneo.services.aplication.security;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -6,10 +6,11 @@ import lombok.RequiredArgsConstructor;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
-import org.inneo.services.servicos.LoginService;
 
 import org.inneo.services.domain.dtos.LoginResquest;
 import org.inneo.services.domain.dtos.TokenResponse;
+import org.inneo.services.servicos.security.LoginService;
+
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 @Tag(name = "Authentication")
 @RequestMapping("/auth")
-public class LoginControl {
+public class LoginResources {
 	private final LoginService loginService;
 	
 	@Operation(summary = "Cadastrar novo login", method = "POST")

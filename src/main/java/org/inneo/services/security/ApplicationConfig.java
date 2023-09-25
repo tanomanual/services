@@ -2,7 +2,7 @@ package org.inneo.services.security;
 
 import lombok.RequiredArgsConstructor;
 
-import org.inneo.services.repository.LoginRep;
+import org.inneo.services.repository.login.LoginRep;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

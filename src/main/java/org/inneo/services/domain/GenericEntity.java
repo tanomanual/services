@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 import jakarta.persistence.GeneratedValue;
 
 import jakarta.persistence.MappedSuperclass;
-import org.inneo.services.recursos.Conversor;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -35,8 +34,4 @@ public abstract class GenericEntity implements Serializable{
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy HH:mm")
 	private Date dataInativacao;
-
-	public String getPublishedAt() {
-        return Conversor.dateToString(published);
-    }
 }

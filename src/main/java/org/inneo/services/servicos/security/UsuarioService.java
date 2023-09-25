@@ -1,9 +1,9 @@
-package org.inneo.services.servicos;
+package org.inneo.services.servicos.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.inneo.services.repository.UsuarioRep;
 import org.inneo.services.domain.usuario.Usuario;
+import org.inneo.services.repository.login.UsuarioRep;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service

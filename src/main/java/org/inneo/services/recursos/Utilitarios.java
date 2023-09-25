@@ -3,7 +3,7 @@ package org.inneo.services.recursos;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-public class Conversor {
+public class Utilitarios {
 	
 	public static String dateToString(Date date) {
 		SimpleDateFormat format = new SimpleDateFormat("HH:mm dd-MM-yyyy");
@@ -30,7 +30,6 @@ public class Conversor {
         String ultimo = nomeCompleto[nomeCompleto.length-1];        
         String nomeAbreviado = primeiro + meio + ultimo;        
         return nomeAbreviado.toString();
-    }
-	
+    }	
 	
 }

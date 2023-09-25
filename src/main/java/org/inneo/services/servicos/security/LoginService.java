@@ -1,13 +1,13 @@
-package org.inneo.services.servicos;
+package org.inneo.services.servicos.security;
 
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 
 import org.inneo.services.domain.enums.Role;
 import org.inneo.services.domain.token.Token;
-import org.inneo.services.repository.LoginRep;
-import org.inneo.services.repository.TokenRep;
-import org.inneo.services.repository.UsuarioRep;
+import org.inneo.services.repository.login.LoginRep;
+import org.inneo.services.repository.login.TokenRep;
+import org.inneo.services.repository.login.UsuarioRep;
 import org.inneo.services.security.JwtService;
 import org.springframework.stereotype.Service;
 import org.inneo.services.domain.usuario.Login;
