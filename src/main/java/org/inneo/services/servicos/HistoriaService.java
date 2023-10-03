@@ -19,7 +19,6 @@ import org.springframework.data.domain.PageImpl;
 import org.inneo.services.domain.enums.Situacao;
 import org.inneo.services.repository.HistoriaRep;
 import org.inneo.services.domain.specs.HistoriaSpec;
-import org.inneo.services.domain.usuario.Usuario;
 import org.inneo.services.domain.dtos.HistoriaResponse;
 import org.inneo.services.servicos.security.UsuarioService;
 

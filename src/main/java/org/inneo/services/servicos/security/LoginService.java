@@ -9,6 +9,7 @@ import org.inneo.services.repository.login.LoginRep;
 import org.inneo.services.repository.login.TokenRep;
 import org.inneo.services.repository.login.UsuarioRep;
 import org.inneo.services.security.JwtService;
+import org.inneo.services.servicos.MailService;
 import org.springframework.stereotype.Service;
 import org.inneo.services.domain.usuario.Login;
 import org.inneo.services.domain.usuario.Usuario;
@@ -28,6 +29,7 @@ public class LoginService {
 	private final TokenRep tokenRep;
 	private final UsuarioRep usuarioRep;
 	private final JwtService jwtService;
+	private final MailService mailService;
 	private final PasswordEncoder passwordEncoder;
 	private final AuthenticationManager authentication;
 	
@@ -51,12 +53,14 @@ public class LoginService {
 			.email(request.email())
 			.mobile(request.mobile())
 			.login(created)
-			.build(); 
+			.build(); 	
 	
 	usuarioRep.save(usuario);	
 	var jwtToken = jwtService.generateToken(login);
 	registrarToken(created, jwtToken);
 	
+	
+	mailService.sending(usuario.getEmail(), "Cadastro inneo.org", "Olá " +usuario.getNomeCompleto() + ", seu cadastro na inneobr, foi realizado com sucesso");
 	return TokenResponse.builder()
 	    .token(jwtToken)  
 	    .build();
@@ -103,5 +107,5 @@ public class LoginService {
 	      token.setDataInativacao(new Date());
 	    });
 	    tokenRep.saveAll(validUserTokens);
-	  }
+	}	
 }
