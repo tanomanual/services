@@ -1,13 +1,19 @@
 package org.inneo.services.domain.options;
 
 
-import jakarta.validation.constraints.NotBlank;
 import org.inneo.services.domain.GenericEntity;
+import org.inneo.services.domain.enums.MenuEnum;
+import jakarta.validation.constraints.NotBlank;
+
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.EnumType;
 import jakarta.persistence.Column;
+
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,16 +29,16 @@ public class Menu extends GenericEntity{
 	private static final long serialVersionUID = 1L;
 	
 	@NotBlank
-	private String nome;
-	
-	@NotBlank
-	private String classe;
+	private String name;
 	
 	@NotBlank
 	private String icon;
 	
 	@NotBlank
 	@Column(unique = true)
-	private String link;
+	private String caminho;
+	
+	@Enumerated(EnumType.STRING)
+	private MenuEnum menuEnum;
 
 }
