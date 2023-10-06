@@ -73,7 +73,7 @@ public class SecurityConfiguration {
 	private static final String[] openUrl() {
 		String[] whitelist = {
 				"/",
-				"/v1/public/**",
+				"/public/**",
 				"/auth/login",
 				"/auth/register",
 				"/v3/api-docs/**",
